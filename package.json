@@ -1,0 +1,14 @@
+{
+  "name": "node_test_app",
+  "version": "1.0.0",
+  "description": "Node test app",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.16.1"
+  },
+  "author": "Austin Roose",
+  "license": "ISC"
+}
