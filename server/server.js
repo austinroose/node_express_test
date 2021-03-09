@@ -1,5 +1,6 @@
 const express = require("./config/express.js"),
     mongoose = require("mongoose");
+require('dotenv').config()
 
 cron = require("cron");
 
@@ -7,7 +8,7 @@ const port = process.env.PORT || 5000;
 
 
 const app = express.init();
-const server  = require("http".createServer(app));
+const server  = require("http").createServer(app);
 const io = require("socket.io")(server)
 
 io.of("/api/socket").on("connection", (socket) => {
@@ -21,7 +22,8 @@ io.of("/api/socket").on("connection", (socket) => {
 server.listen(port, () => console.log(`Server now running on port ${port}!`))
 
 // connect to db
-mongoose.connect(process.env.DB_URI || require("./config/config").db.uri, {
+console.log(process.env.DB_URI)
+mongoose.connect(process.env.DB_URI || require("./config/example.config").db.uri, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
@@ -56,10 +58,10 @@ todoChangeStream.on("change", (change) => {
 });
 
 //schedule deletion of todos at midnight
-cron.schedule("0 0 0 * * *", async () => {
-await connection.collection("todos").drop();
+//cron.sc("0 0 0 * * *", async () => {
+//await connection.collection("todos").drop();
 
 io.of("/api/socket").emit("todosCleared");
-});
+
 
 connection.on("error", (error) => console.log("Error: " + error));

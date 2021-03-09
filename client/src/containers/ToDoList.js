@@ -6,6 +6,8 @@ import {
 } from "@material-ui/core"
 import io from "socket.io-client";
 import URLs from '../routing/URLs';
+import axios from 'axios';
+import { fetchTodos } from '../api/todos';
 
 const ToDoList = (props) => {
     const [todos, setTodos] = useState([])
@@ -24,8 +26,18 @@ const ToDoList = (props) => {
         })
     }
 
+    async function fetchingTodos () {
+        const data = await fetchTodos();
+        if (data.data) {
+            console.log('todos', data.data)
+        } else {
+            console.log('error', data.error)
+        }
+    }
+
     useEffect(() => {
         todosChange()
+        fetchingTodos()
     })
 
     return (
